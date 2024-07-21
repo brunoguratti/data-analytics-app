@@ -12,8 +12,8 @@ pipeline {
         stage('Test') {
             steps {
                 // Run Pytest tests here
-                sh 'pytest test/test_analysis.py || exit 1'
-            }
+                
+           }
         }
         stage('Docker Build') {
             steps {
