@@ -9,12 +9,6 @@ pipeline {
                 }
             }
         }
-        stage('Test') {
-            steps {
-                // Run Pytest tests here
-                
-           }
-        }
         stage('Docker Build') {
             steps {
                 script {
