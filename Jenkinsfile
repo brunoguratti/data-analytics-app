@@ -7,19 +7,22 @@ pipeline {
                 script {
                     sh 'pip install -r requirements.txt'
                 }
-
             }
         }
         stage('Test') {
             steps {
                 // Run Pytest tests here
-                sh 'pytest'
+                sh 'pytest test/test_analysis.py || exit 1'
             }
         }
         stage('Docker Build') {
             steps {
                 script {
-                    docker.build('my-python-app:latest')
+                    // Build the Docker image and push it to Docker Hub
+                    docker.build('bguratti/my-python-app:latest', '.')
+                    docker.withRegistry('https://index.docker.io/v1/', 'dockerhub-credentials-id') {
+                        docker.image('bguratti/my-python-app:latest').push('latest')
+                    }
                 }
             }
         }
@@ -28,9 +31,9 @@ pipeline {
                 script {
                     // Deploy application using kubectl
                     sh 'kubectl apply -f k8s/deployment.yaml'
-
                 }
             }
         }
     }
 }
+
