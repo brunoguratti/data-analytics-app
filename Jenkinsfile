@@ -4,9 +4,7 @@ pipeline {
     stages {
         stage('Build') {
             steps {
-                script {
-                    sh 'pip install -r requirements.txt'
-                }
+                sh 'pip install -r requirements.txt'
             }
         }
         stage('Docker Build') {
@@ -22,12 +20,8 @@ pipeline {
         }
         stage('Deploy to Minikube') {
             steps {
-                script {
-                    // Deploy application using kubectl
-                    sh 'kubectl apply -f k8s/deployment.yaml'
-                }
+                sh 'kubectl apply -f k8s/deployment.yaml'
             }
         }
     }
 }
-
